@@ -17,3 +17,6 @@
 \ This code simply makes a sudoku!
 
 require objects.fs
+
+here constant sudokudata \ making space for the sudoku data
+9 9 * cell * allot
