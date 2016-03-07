@@ -20,3 +20,9 @@ require objects.fs
 
 here constant sudokudata \ making space for the sudoku data
 9 9 * cell * allot
+
+: horzaddr ( nhorz nindex -- naddr ) \ calculate the address of horizontal data
+   swap 9 * + ;
+
+: vertaddr ( nvert nindex -- naddr ) \ caluclate the address of vertical data
+   9 * + ;
