@@ -17,9 +17,16 @@
 \ This code simply makes a sudoku!
 
 require objects.fs
+require random.fs
+
+variable workinghorizontal
+variable avertical
+variable acell
+9 9 * cell * constant datasize
 
 here constant sudokudata \ making space for the sudoku data
-9 9 * cell * allot
+datasize allot
+sudokudata datasize erase \ ensure starting with no values in the sudoku
 
 : horzaddr ( nhorz nindex -- naddr ) \ calculate the address of horizontal data
    swap 9 * + ;
