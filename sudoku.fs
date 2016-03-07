@@ -26,3 +26,32 @@ here constant sudokudata \ making space for the sudoku data
 
 : vertaddr ( nvert nindex -- naddr ) \ caluclate the address of vertical data
    9 * + ;
+
+: celladdr ( ncell nindex -- naddr ) \ calculate the address of a cell data
+   swap case
+      0 of 0 endof
+      1 of 3 endof
+      2 of 6 endof
+      3 of 27 endof
+      4 of 30 endof
+      5 of 33 endof
+      6 of 54 endof
+      7 of 57 endof
+      8 of 60 endof
+      \ default case:  should not ever get here
+      100 throw \ only numbers 0 to 8 allowed
+   endcase swap  ( ncell-start nindex )
+   case
+      0 of 0 endof
+      1 of 1 endof
+      2 of 2 endof
+      3 of 9 endof
+      4 of 10 endof
+      5 of 11 endof
+      6 of 18 endof
+      7 of 19 endof
+      8 of 20 endof
+      \ default case: should not ever get here
+      101 throw \ only numbers 0 to 8 allowed
+   endcase ( ncell-start nadjusted-index )
+   + ;
