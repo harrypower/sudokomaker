@@ -20,6 +20,7 @@ require objects.fs
 require random.fs
 
 variable workinghorizontal
+variable workingindex
 variable avertical
 variable acell
 9 9 * cell * constant datasize
@@ -62,3 +63,9 @@ sudokudata datasize erase \ ensure starting with no values in the sudoku
       101 throw \ only numbers 0 to 8 allowed
    endcase ( ncell-start nadjusted-index )
    + ;
+
+\ loop through workingindex and workinghorizontal from 0 to 8 and when done the sudoku is done
+\ in the loop get a random number then test horizontal vertical and cells for conflict
+\ if no conflict place the number into the workingindex workinghorizontal location and continute to next loop
+\ if a conflict get another random number and repeat the conflict test.  Eventualy a number will be found to work with all three
+\ test plains .
