@@ -113,10 +113,10 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
    9 random 1 + ;
 
 : sudoku! ( nvalue nhorz nindex -- ) \ store nvalue in sudokulist at nhorz nindex location
-   horzaddr sudokulist + ! ;
+   horzaddr cell * sudokulist + ! ;
 
 : sudoku@ ( nhorz nindex -- nvalue ) \ retrieve nvalue of the current nhorz nindex location of the sudoku
-   horzaddr sudokulist + @ ;
+   horzaddr cell * sudokulist + @ ;
 
 : makesudoku ( -- ) \ make the sudokulist that will be a solvable sudoku
    0 { theguess }
