@@ -113,11 +113,13 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
    horzaddr cell * sudokulist + @ ;
 
 : makesudoku ( -- ) \ make the sudokulist that will be a solvable sudoku
+   cr
    0 { theguess }
    9 0 do \ remember j this will be horizontal
       9 0 do \ remember i this will be index
          begin
             nextguess to theguess
+            theguess . space j . space i . space cr
             theguess j testhorz false =
             if theguess i testvert false =
                if theguess j i horztocell testcells false =
@@ -133,6 +135,6 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
    page
    9 0 do
       9 0 do
-         j i sudoku@ j i at-xy .
+         j i sudoku@ i j at-xy .
       loop
    loop ;
