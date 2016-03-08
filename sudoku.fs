@@ -64,13 +64,29 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
    endcase ( ncell-start nadjusted-index )
    + ;
 
+: horztocell ( nhorz nindex -- ncell ) \ calculate ncell value from horizontal and index values
+   3 / swap
+   case
+      0 of 0 + endof
+      1 of 0 + endof
+      2 of 0 + endof
+      3 of 3 + endof
+      4 of 3 + endof
+      5 of 3 + endof
+      6 of 6 + endof
+      7 of 6 + endof
+      8 of 6 + endof
+      \ default case: should not ever get here
+      102 throw \ only numbers 0 to 8 allowed
+   endcase ;
+
 \ loop through workingindex and workinghorizontal from 0 to 8 and when done the sudoku is done
 \ in the loop get a random number then test horizontal vertical and cells for conflict
 \ if no conflict place the number into the workingindex workinghorizontal location and continute to next loop
 \ if a conflict get another random number and repeat the conflict test.  Eventualy a number will be found to work with all three
 \ test plains .
 
- : testhorz ( ntest nhorz  -- nflag ) \ look through horizontal items for ntest if not found then nflag is false
+: testhorz ( ntest nhorz  -- nflag ) \ look through horizontal items for ntest if not found then nflag is false
    \ nflag is true if ntest value is found
    { tvalue horz }
    try
