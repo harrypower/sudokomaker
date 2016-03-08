@@ -76,17 +76,11 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
       \ 102 throw \ only numbers 0 to 8 allowed
    endcase ;
 
-\ loop through workingindex and workinghorizontal from 0 to 8 and when done the sudoku is done
-\ in the loop get a random number then test horizontal vertical and cells for conflict
-\ if no conflict place the number into the workingindex workinghorizontal location and continute to next loop
-\ if a conflict get another random number and repeat the conflict test.  Eventualy a number will be found to work with all three
-\ test plains .
-
 : testhorz ( ntest nhorz  -- nflag ) \ look through horizontal items for ntest if not found then nflag is false
    \ nflag is true if ntest value is found
    { tvalue horz }
    try
-      9 0 do horz i horzaddr sudokulist + @ tvalue = if true throw then loop
+      9 0 do horz i horzaddr cell * sudokulist + @ tvalue = if true throw then loop
       false
    restore
    endtry ;
@@ -95,7 +89,7 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
    \ nflag is true if ntest value is found
    { tvalue vert }
    try
-      9 0 do vert i vertaddr sudokulist + @ tvalue = if true throw then loop
+      9 0 do vert i vertaddr cell * sudokulist + @ tvalue = if true throw then loop
       false
    restore
    endtry ;
@@ -104,7 +98,7 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
    \ nflag is true if ntest is found
    { tvalue ncell }
    try
-      9 0 do ncell i celladdr sudokulist + @ tvalue = if true throw then loop
+      9 0 do ncell i celladdr cell * sudokulist + @ tvalue = if true throw then loop
       false
    restore
    endtry ;
