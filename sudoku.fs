@@ -43,7 +43,7 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
       7 of 57 endof
       8 of 60 endof
       \ default case:  should not ever get here
-      100 throw \ only numbers 0 to 8 allowed
+      \ 100 throw \ only numbers 0 to 8 allowed
    endcase swap  ( ncell-start nindex )
    case
       0 of 0 endof
@@ -56,7 +56,7 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
       7 of 19 endof
       8 of 20 endof
       \ default case: should not ever get here
-      101 throw \ only numbers 0 to 8 allowed
+      \ 101 throw \ only numbers 0 to 8 allowed
    endcase ( ncell-start nadjusted-index )
    + ;
 
@@ -73,7 +73,7 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
       7 of 6 + endof
       8 of 6 + endof
       \ default case: should not ever get here
-      102 throw \ only numbers 0 to 8 allowed
+      \ 102 throw \ only numbers 0 to 8 allowed
    endcase ;
 
 \ loop through workingindex and workinghorizontal from 0 to 8 and when done the sudoku is done
@@ -132,5 +132,13 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
             then
             j i sudoku@ \ if 0 is in sudokulist then nothing was stored there yet so repeat until something stored
          until
+      loop
+   loop ;
+
+: displaysudoku ( -- )
+   page
+   9 0 do
+      9 0 do
+         j i sudoku@ j i at-xy .
       loop
    loop ;
