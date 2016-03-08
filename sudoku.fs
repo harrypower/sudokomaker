@@ -19,11 +19,21 @@
 require random.fs
 
 9 9 * cell * constant datasize
+9 cell * constant horzdatasize
 
 0 value sudokulist \ making space for the sudoku data
 here to sudokulist
 datasize allot
-sudokulist datasize erase \ ensure starting with no values in the sudoku
+: clearsudoku ( -- )
+   sudokulist datasize erase ; \ ensure starting with no values in the sudoku
+clearsudoku
+
+0 value horizontal-list
+here to horizontal-list
+horzdatasize allot
+: clearhorz ( -- ) \ erase horizontal-list
+   horizontal-list horzdatasize erase ;
+clearhorz
 
 : horzaddr ( nhorz nindex -- naddr ) \ calculate the address of horizontal data
    swap 9 * + ;
@@ -113,7 +123,7 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
    horzaddr cell * sudokulist + @ ;
 
 : makesudoku ( -- ) \ make the sudokulist that will be a solvable sudoku
-   cr
+   clearsudoku cr
    0 { theguess }
    9 0 do \ remember j this will be horizontal
       9 0 do \ remember i this will be index
@@ -129,6 +139,18 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
             j i sudoku@ \ if 0 is in sudokulist then nothing was stored there yet so repeat until something stored
          until
       loop
+   loop ;
+
+: makehorizontal ( nhorz -- ) \ will return when i has a solution to horizontal part of sudoku
+   clearhorz
+   9 0 do
+
+   loop ;
+
+: makesudoku2 ( -- )
+   clearsudoku
+   9 0 do
+      i makehorizontal
    loop ;
 
 : displaysudoku ( -- )
