@@ -18,10 +18,6 @@
 
 require random.fs
 
-variable workinghorizontal
-variable workingindex
-variable avertical
-variable acell
 9 9 * cell * constant datasize
 
 0 value sudokulist \ making space for the sudoku data
@@ -112,3 +108,29 @@ sudokulist datasize erase \ ensure starting with no values in the sudoku
       false
    restore
    endtry ;
+
+: nextguess ( -- nguess ) \ simply produce a number guess for sudoku 1 to 9
+   9 random 1 + ;
+
+: sudoku! ( nvalue nhorz nindex -- ) \ store nvalue in sudokulist at nhorz nindex location
+   horzaddr sudokulist + ! ;
+
+: sudoku@ ( nhorz nindex -- nvalue ) \ retrieve nvalue of the current nhorz nindex location of the sudoku
+   horzaddr sudokulist + @ ;
+
+: makesudoku ( -- ) \ make the sudokulist that will be a solvable sudoku
+   0 { theguess }
+   9 0 do \ remember j this will be horizontal
+      9 0 do \ remember i this will be index
+         begin
+            nextguess to theguess
+            theguess j testhorz false =
+            if theguess i testvert false =
+               if theguess j i horztocell testcells false =
+                  if theguess j i sudoku! then
+               then
+            then
+            j i sudoku@ \ if 0 is in sudokulist then nothing was stored there yet so repeat until something stored
+         until
+      loop
+   loop ;
