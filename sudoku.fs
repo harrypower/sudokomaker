@@ -16,7 +16,6 @@
 \
 \ This code simply makes a sudoku!
 
-require objects.fs
 require random.fs
 
 variable workinghorizontal
@@ -25,9 +24,10 @@ variable avertical
 variable acell
 9 9 * cell * constant datasize
 
-here constant sudokudata \ making space for the sudoku data
+0 value sudokulist \ making space for the sudoku data
+here to sudokulist
 datasize allot
-sudokudata datasize erase \ ensure starting with no values in the sudoku
+sudokulist datasize erase \ ensure starting with no values in the sudoku
 
 : horzaddr ( nhorz nindex -- naddr ) \ calculate the address of horizontal data
    swap 9 * + ;
@@ -69,3 +69,30 @@ sudokudata datasize erase \ ensure starting with no values in the sudoku
 \ if no conflict place the number into the workingindex workinghorizontal location and continute to next loop
 \ if a conflict get another random number and repeat the conflict test.  Eventualy a number will be found to work with all three
 \ test plains .
+
+ : testhorz ( ntest nhorz  -- nflag ) \ look through horizontal items for ntest if not found then nflag is false
+   \ nflag is true if ntest value is found
+   { tvalue horz }
+   try
+      9 0 do horz i horzaddr sudokulist + @ tvalue = if true throw then loop
+      false
+   restore
+   endtry ;
+
+: testvert ( ntest nvert -- nflag ) \ look through vertical items for ntest if not found then nflag is false
+   \ nflag is true if ntest value is found
+   { tvalue vert }
+   try
+      9 0 do vert i vertaddr sudokulist + @ tvalue = if true throw then loop
+      false
+   restore
+   endtry ;
+
+: testcells ( ntest ncell -- nflag ) \ look through cell items for ntest if not found nflag is false
+   \ nflag is true if ntest is found
+   { tvalue ncell }
+   try
+      9 0 do ncell i celladdr sudokulist + @ tvalue = if true throw then loop
+      false
+   restore
+   endtry ;
