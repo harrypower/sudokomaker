@@ -17,6 +17,7 @@
 \ This code simply makes a sudoku!
 
 require random.fs
+utime drop seed !
 
 9 9 * cell * constant datasize
 
