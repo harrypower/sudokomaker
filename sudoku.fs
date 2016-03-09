@@ -114,24 +114,47 @@ clearsudoku
 : sudoku@ ( nhorz nindex -- nvalue ) \ retrieve nvalue of the current nhorz nindex location of the sudoku
    horzaddr cell * sudokulist + @ ;
 
-: makesudoku ( -- ) \ make the sudokulist that will be a solvable sudoku
-   clearsudoku cr
-   0 { theguess }
-   9 0 do \ remember j this will be horizontal
-      9 0 do \ remember i this will be index
-         begin
-            nextguess to theguess
-            theguess . space j . space i . space cr
-            theguess j testhorz false =
-            if theguess i testvert false =
-               if theguess j i horztocell testcells false =
-                  if theguess j i sudoku! then
-               then
-            then
-            j i sudoku@ \ if 0 is in sudokulist then nothing was stored there yet so repeat until something stored
-         until
-      loop
-   loop ;
+: clearhorizontal ( nhorz -- ) \ simply put 0 into all horizontal data for nhorz
+   { nhorz }
+   9 0 do 0 nhorz i sudoku! loop ;
+
+: doahorziontal ( nhorz nindex -- nindex1 )
+   0 0 { nhorz nindex theguess failtimes }
+   begin
+      nextguess to theguess
+      theguess nhorz testhorz false =
+      if theguess nindex testvert false =
+         if theguess nhorz nindex horztocell testcells false =
+            if theguess nhorz nindex sudoku! then
+         then
+      then
+      nhorz nindex sudoku@ 0 =
+      if \ solution not found this time
+         failtimes 1+ to failtimes
+         failtimes 20 >
+         if \ bail from this failed horizontal solution
+            -1 nhorz clearhorizontal \ now clear the current horizontal
+            true
+         else
+            false \ try again for solution
+         then
+      else
+         nindex true \ solution found return
+      then
+   until ;
+
+: doindex ( nhorz -- )
+   0 { nhorz nindex }
+   begin
+      nhorz nindex doahorziontal to nindex nindex 1+ to nindex
+      nindex 9 >=
+   until ;
+
+: makesudoku2 ( -- ) \ make the sudokulist that will be a solvable sudoku
+      clearsudoku cr
+      9 0 do \ remember i this will be horizontal
+         i doindex
+      loop ;
 
 : displaysudoku ( -- )
    page
