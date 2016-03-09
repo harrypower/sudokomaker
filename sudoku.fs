@@ -118,7 +118,8 @@ clearsudoku
    { nhorz }
    9 0 do 0 nhorz i sudoku! loop ;
 
-: doahorziontal ( nhorz nindex -- nindex1 )
+: doahorziontal ( nhorz nindex -- nindex1 )  \ inside part of makesudoku
+   \ finds a working horizontal set of sudoku number to keep in solution
    0 0 { nhorz nindex theguess failtimes }
    begin
       nextguess to theguess
@@ -143,20 +144,20 @@ clearsudoku
       then
    until ;
 
-: doindex ( nhorz -- )
+: doindex ( nhorz -- ) \ intermediate part of makesudoku
    0 { nhorz nindex }
    begin
       nhorz nindex doahorziontal to nindex nindex 1+ to nindex
       nindex 9 >=
    until ;
 
-: makesudoku2 ( -- ) \ make the sudokulist that will be a solvable sudoku
+: makesudoku ( -- ) \ make the sudokulist that will be a solvable sudoku
       clearsudoku cr
       9 0 do \ remember i this will be horizontal
          i doindex
       loop ;
 
-: displaysudoku ( -- )
+: displaysudoku ( -- ) \ display current sudoku
    page
    9 0 do
       9 0 do
