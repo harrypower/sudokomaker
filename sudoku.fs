@@ -16,6 +16,8 @@
 \
 \ This code simply makes a sudoku!
 
+warnings off
+
 require random.fs
 utime drop seed !
 
@@ -165,3 +167,33 @@ clearsudoku
          j i sudoku@ i j at-xy .
       loop
    loop ;
+
+: easy 30 50 ;
+: medium 25 50 ;
+: hard 20 50 ;
+: showall 40 40 ;
+: displaychance ( nchance nrnd -- nflag ) \ nflag is true or false based on the chance of random draw
+   random > ;
+
+: sudoku ( nchance nrnd -- ) \ display the sudoku
+   { nchance nrnd }
+   page
+   9 0 do
+      9 0 do
+         nchance nrnd displaychance
+         if  j i sudoku@ i j at-xy . else i j at-xy ." -" then
+      loop
+   loop ;
+
+: startsudoku ( -- )
+   makesudoku
+   s" SUDOKU MAKER" type cr
+   s" To display the sudoku type one of the following:" type cr
+   s" easy sudoku     - to see an easy sudoku!" type cr
+   s" medium sudoku   - to see an medium sudoku!" type cr
+   s" hard sudoku     - to see an hard sudoku!" type cr
+   s" showall sudoku  - to see the sudoku solution!" type cr
+   s" makesudoku      - to create a new sudoku and delete the old one from memory!" type cr
+   s" startsudoku     - to see this message again and create a new sudoku!" type cr ;
+
+:noname startsudoku ; is bootmessage
