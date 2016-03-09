@@ -190,8 +190,8 @@ clearsudoku
    s" SUDOKU MAKER" type cr
    s" To display the sudoku type one of the following:" type cr
    s" easy sudoku     - to see an easy sudoku!" type cr
-   s" medium sudoku   - to see an medium sudoku!" type cr
-   s" hard sudoku     - to see an hard sudoku!" type cr
+   s" medium sudoku   - to see a medium sudoku!" type cr
+   s" hard sudoku     - to see a hard sudoku!" type cr
    s" showall sudoku  - to see the sudoku solution!" type cr
    s" makesudoku      - to create a new sudoku and delete the old one from memory!" type cr
    s" startsudoku     - to see this message again and create a new sudoku!" type cr ;
