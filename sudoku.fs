@@ -197,3 +197,5 @@ clearsudoku
    s" startsudoku     - to see this message again and create a new sudoku!" type cr ;
 
 :noname startsudoku ; is bootmessage
+
+startsudoku
